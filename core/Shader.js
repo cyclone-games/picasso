@@ -23,7 +23,7 @@ export default class Shader {
     }
 
     compile (gl) {
-        const shader = gl.createShader(`${ this.type.toUpperCase() }_SHADER`);
+        const shader = gl.createShader(gl[ `${ this.type.toUpperCase() }_SHADER` ]);
         
         gl.shaderSource(shader, this.glsl);
         gl.compileShader(shader);
