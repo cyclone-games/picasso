@@ -29,17 +29,19 @@ export default class Shader {
         gl.compileShader(shader);
         
         for (const attribute of this.glsl.match(new RegExp(attributeRegex, 'g'))) {
-            const [ , type, name ] = attribute.match(attributeRegex);
-            const size = Number.parseInt(type.match(/\d+/), 10);
+            const [ , definition, name ] = attribute.match(attributeRegex);
+            const size = Number.parseInt(definition.match(/\d+/), 10);
+            const type = definition.match(/(.+?)\d+/)[ 1 ];
             
-            this.attributes.push({ name, size });
+            this.attributes.push({ name, size, type });
         }
         
         for (const uniform of this.glsl.match(new RegExp(uniformRegex, 'g'))) {
-            const [ , type, name ] = uniform.match(uniformRegex);
-            const size = Number.parseInt(type.match(/\d+/), 10);
+            const [ , definition, name ] = uniform.match(uniformRegex);
+            const size = Number.parseInt(definition.match(/\d+/), 10);
+            const type = definition.match(/(.+?)\d+/)[ 1 ];
             
-            this.uniforms.push({ name, size });
+            this.uniforms.push({ name, size, type });
         }
         
         this.compiled = shader;
