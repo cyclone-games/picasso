@@ -41,23 +41,19 @@ export default class Renderer {
 
     setAttribute (name, ...values) {
         const attribute = this.attributes[ name ];
-              
-        if (values.length !== attribute.size) {
-            throw new Error(`Invalid number of values for ${ name }: Expected ${ attribute.size }, found ${ values.length }`);
-        }
-        
-        // TODO
     }
 
     setUniform (name, ...values) {
         const uniform = this.uniforms[ name ];
-              
-        if (values.length !== uniform.size) {
-            throw new Error(`Invalid number of values for ${ name }: Expected ${ uniform.size }, found ${ values.length }`);
-        }
         
-        this.gl[ `uniform${ uniform.size }f` ](uniform.location, ...values); 
-        // TODO matrixes (uniformMatrix3fv, etc) & types (u, i, f, v, etc)
+        switch (uniform.type) {
+            case 'mat': {
+                return this.gl[ `uniformMatrix${ uniform.size }fv` ](uniform.location, false, values);
+            }
+            case 'vec': {
+                return this.gl[ `uniform${ uniform.size }f` ](uniform.location, ...values);
+            }
+        }
     }
     
     render (renderable) {
