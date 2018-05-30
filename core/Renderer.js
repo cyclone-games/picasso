@@ -18,14 +18,14 @@ export default class Renderer {
             this.gl.attachShader(this.program, compiled);
             
             for (const attribute of attributes) {
-                this.attributes[ attribute ] = this.gl.getAttribLocation(this.program, attribute);
-                this.buffers[ attribute ] = this.gl.createBuffer();
+                this.attributes[ attribute.name ] = this.gl.getAttribLocation(this.program, attribute.name);
+                this.buffers[ attribute.name ] = this.gl.createBuffer();
                 
-                this.gl.enableVertexAttribArray(this.attributes[ attribute ]);
+                this.gl.enableVertexAttribArray(this.attributes[ attribute.name ]);
             }
             
             for (const uniform of uniforms) {
-                this.uniforms[ uniform ] = this.gl.getUniformLocation(this.program, uniform);
+                this.uniforms[ uniform.name ] = this.gl.getUniformLocation(this.program, uniform.name);
             }
         }
         
