@@ -22,6 +22,7 @@ export default class Renderer {
                 this.buffers[ attribute ] = this.gl.createBuffer();
                 
                 this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffers[ attribute ]);
+                this.gl.enableVertexAttribArray(this.attributes[ attribute ]);
             }
             
             for (const uniform of uniforms) {
