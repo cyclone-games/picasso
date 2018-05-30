@@ -2,7 +2,8 @@ export default class Renderer {
     
     constructor (canvas) {
         this.canvas = canvas;
-        this.context = canvas.getContext('webgl');
+        this.context = this.canvas.getContext('webgl2');
+        this.program = this.context.createProgram();
     }
     
     render (renderable) {
