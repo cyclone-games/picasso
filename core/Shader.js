@@ -1,5 +1,5 @@
-const attributeRegex = /attribute .+? (.+?);/;
-const uniformRegex = /uniform .+? (.+?);/;
+const attributeRegex = /attribute (.+?) (.+?);/;
+const uniformRegex = /uniform (.+?) (.+?);/;
 
 export default class Shader {
     
@@ -29,11 +29,17 @@ export default class Shader {
         gl.compileShader(shader);
         
         for (const attribute of this.glsl.match(new RegExp(attributeRegex, 'g'))) {
-            this.attributes.push(attribute.match(attributeRegex)[ 1 ]);
+            const [ , type, name ] = attribute.match(attributeRegex);
+            const size = Number.parseInt(type.match(/\d+/), 10);
+            
+            this.attributes.push({ name, size });
         }
         
         for (const uniform of this.glsl.match(new RegExp(uniformRegex, 'g'))) {
-            this.uniforms.push(uniform.match(uniformRegex)[ 1 ]);
+            const [ , type, name ] = uniform.match(uniformRegex);
+            const size = Number.parseInt(type.match(/\d+/), 10);
+            
+            this.uniforms.push({ name, size });
         }
         
         this.compiled = shader;
