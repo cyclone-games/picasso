@@ -22,11 +22,11 @@ export default class Shader {
         this.type = type;
     }
 
-    compile (renderer) {
-        const shader = renderer.context.createShader(`${ this.type.toUpperCase() }_SHADER`);
+    compile (gl) {
+        const shader = gl.createShader(`${ this.type.toUpperCase() }_SHADER`);
         
-        renderer.context.shaderSource(shader, this.glsl);
-        renderer.context.compileShader(shader);
+        gl.shaderSource(shader, this.glsl);
+        gl.compileShader(shader);
         
         for (const attribute of this.glsl.match(new RegExp(attributeRegex, 'g'))) {
             this.attributes.push(attribute.match(attributeRegex)[ 1 ]);
