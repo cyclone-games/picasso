@@ -37,5 +37,7 @@ export default class Shader {
         }
         
         this.compiled = shader;
+        
+        return this;
     }
 }
