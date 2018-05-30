@@ -1,4 +1,4 @@
-import Shader from '../core/Shader';
+import Shader from '../../core/Shader';
 
 export default new Shader(Shader.types.fragment, `
     precision mediump float;
