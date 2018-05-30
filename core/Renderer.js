@@ -56,7 +56,8 @@ export default class Renderer {
             throw new Error(`Invalid number of values for ${ name }: Expected ${ uniform.size }, found ${ values.length }`);
         }
         
-        // TODO
+        this.gl[ `uniform${ uniform.size }f` ](uniform.location, ...values); 
+        // TODO matrixes (uniformMatrix3fv, etc) & types (u, i, f, v, etc)
     }
     
     render (renderable) {
