@@ -21,7 +21,6 @@ export default class Renderer {
                 this.attributes[ attribute ] = this.gl.getAttribLocation(this.program, attribute);
                 this.buffers[ attribute ] = this.gl.createBuffer();
                 
-                this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffers[ attribute ]);
                 this.gl.enableVertexAttribArray(this.attributes[ attribute ]);
             }
             
@@ -30,7 +29,7 @@ export default class Renderer {
             }
         }
         
-        this.gl.linkProgram(this.program);
+        this.gl.useProgram(this.program);
     }
     
     render (renderable) {
