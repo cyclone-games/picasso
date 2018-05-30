@@ -1,6 +1,7 @@
 export default class Renderer {
     
     attributes = { };
+    buffers = { };
     uniforms = { };
     
     constructor (canvas) {
@@ -18,6 +19,9 @@ export default class Renderer {
             
             for (const attribute of attributes) {
                 this.attributes[ attribute ] = this.gl.getAttribLocation(this.program, attribute);
+                this.buffers[ attribute ] = this.gl.createBuffer();
+                
+                this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffers[ attribute ]);
             }
             
             for (const uniform of uniforms) {
