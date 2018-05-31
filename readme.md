@@ -3,7 +3,7 @@
     // \\  // // \\  //||  // \ // \ // \\
    //__// // //     //_||  \\   \\  //  //
   //     //  \\_// //  ||\_// \_//  \\_//
-  
+
           (c) 2018 Cyclonic Games
 ```
 
@@ -11,5 +11,5 @@
 We do not publish our packages on any package managers; as long as your package manager supports github, you're good to go. For NPM, use the following command:
 
 ```shell
-npm install cyclone-games/picasso --save #requires git to be installed
+npm install cyclone-games/picasso --save # requires git to be installed
 ```

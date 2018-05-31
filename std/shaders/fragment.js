@@ -1,6 +1,6 @@
 import Shader from '../../core/Shader';
 
-export default new Shader(Shader.types.fragment, `
+export default new Shader('fragment', `
     precision mediump float;
 
     uniform sampler2D u_image;

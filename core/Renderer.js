@@ -1,62 +1,61 @@
+import Program from './Program';
+
 export default class Renderer {
-    
-    attributes = { };
-    buffers = { };
-    uniforms = { };
-    
+
     constructor (canvas) {
         this.canvas = canvas;
         this.gl = this.canvas.getContext('webgl2');
-        this.program = this.gl.createProgram();
+        this.programs = { };
+        this.using = null;
     }
-    
-    initialize (shaders) {
-        
+
+    initialize (id, shaders) {
+        this.programs[ id ] = new Program(this.gl);
+
         for (const shader of shaders) {
-            const { attributes, compiled, uniforms } = shader.compile(this.gl);
-            
-            this.gl.attachShader(this.program, compiled);
-            
-            for (const attribute of attributes) {
-                this.attributes[ attribute.name ] = {
-                    location: this.gl.getAttribLocation(this.program, attribute.name),
-                    size: attribute.size
-                };
-                
-                this.buffers[ attribute.name ] = this.gl.createBuffer();
-                
-                this.gl.enableVertexAttribArray(this.attributes[ attribute.name ].location);
-            }
-            
-            for (const uniform of uniforms) {
-                this.uniforms[ uniform.name ] = {
-                    location: this.gl.getUniformLocation(this.program, uniform.name),
-                    size: uniform.size
-                };
-            }
+            this.programs[ id ].add(shader);
         }
-        
-        this.gl.useProgram(this.program);
+
+        this.programs[ id ].link();
+        this.programs[ id ].use();
     }
 
-    setAttribute (name, ...values) {
-        const attribute = this.attributes[ name ];
+    useProgram (id) {
+        this.using = id;
+        this.programs[ this.using ].use();
     }
 
-    setUniform (name, ...values) {
-        const uniform = this.uniforms[ name ];
-        
-        switch (uniform.type) {
-            case 'mat': {
-                return this.gl[ `uniformMatrix${ uniform.size }fv` ](uniform.location, false, values);
-            }
-            case 'vec': {
-                return this.gl[ `uniform${ uniform.size }f` ](uniform.location, ...values);
-            }
+    setAttribute (id, values) {
+
+        if (!this.using) {
+            throw new Error('Unable to set attribute: No program is currently being used');
         }
+
+        const attribute = this.programs[ this.using ].getAttribute(id);
+
+        if (!attribute) {
+            throw new Error(`Unable to set attribute: No attribute named ${ id } exists`);
+        }
+
+        attribute.set(values);
     }
-    
+
+    setUniform (id, values) {
+
+        if (!this.using) {
+            throw new Error('Unable to set uniform: No program is currently being used');
+        }
+
+        const uniform = this.programs[ this.using ].getUniform(id);
+
+        if (!uniform) {
+            throw new Error(`Unable to set uniform: No uniform named ${ id } exists`);
+        }
+
+        uniform.set(values);
+    }
+
     render (renderable) {
-        // TODO
+
     }
 }
