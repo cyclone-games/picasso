@@ -32,16 +32,16 @@ export default class Shader {
             const size = Number.parseInt(definition.match(/\d+/), 10);
             const type = definition.match(/(.+?)\d+/)[ 1 ];
 
-            this.attributes.push(new Attribute(buffer, gl, id, size, type));
+            this.attributes.push(new Attribute(buffer, id, size, type));
         }
 
         if (uniforms) for (const uniform of uniforms) {
             const [ , , definition, id ] = uniform.match(Uniform.regex);
             const size = Number.parseInt(definition.match(/\d+/), 10);
-            const texture = definition.match(/sampler/) ? new Texture(this.gl, Texture.unit++) : null;
+            const texture = definition.match(/sampler/) ? new Texture(gl, Texture.unit++) : null;
             const type = definition.match(/(.+?)\d+/)[ 1 ];
 
-            this.uniforms.push(new Uniform(gl, id, size, texture, type));
+            this.uniforms.push(new Uniform(id, size, texture, type));
         }
 
         this.compiled = shader;
