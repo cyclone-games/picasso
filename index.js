@@ -1,5 +1,5 @@
 import Shader from './core/shader';
-import WebGL from './core/Renderer;
+import WebGL from './core/Renderer';
 
 export {
     Shader,
