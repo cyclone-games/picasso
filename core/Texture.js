@@ -2,12 +2,11 @@ export default class Texture {
 
     static unit = 0;
 
-    constructor (gl, unit) {
-        this.gl = gl;
+    constructor (unit) {
         this.unit = unit;
     }
 
-    set (values) {
+    set (gl, values) {
         // this.gl.activeTexture(this.gl[ `TEXTURE${ this.texture.unit }` ]);
         // this.gl.bindTexture(this.gl[ `TEXTURE_${ this.size }D` ], this.texture.registered);
         // this.gl[ `texImage${ this.size }D` ](
