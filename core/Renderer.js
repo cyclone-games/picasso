@@ -10,36 +10,34 @@ export default class Renderer {
     }
 
     initialize (id, shaders) {
-        this.programs[ id ] = new Program(this.gl, shaders);
-
-        this.programs[ id ].compile();
-
+        this.programs[ id ] = new Program(shaders);
+        this.programs[ id ].compile(this.gl);
         this.useProgram(id);
     }
 
     useProgram (id) {
+        this.programs[ id ].use(this.gl);
         this.using = id;
-        this.programs[ this.using ].use();
     }
 
     setAttribute (id, values) {
         const attribute = this.programs[ this.using ].getAttribute(id);
 
         if (!attribute) {
-            throw new Error(`Unable to set attribute: No attribute named ${ id } exists`);
+            throw new Error(`Unable to set attribute: No attribute named ${ id } exists in the current program`);
         }
 
-        attribute.set(values);
+        attribute.set(this.gl, values);
     }
 
     setUniform (id, values) {
         const uniform = this.programs[ this.using ].getUniform(id);
 
         if (!uniform) {
-            throw new Error(`Unable to set uniform: No uniform named ${ id } exists`);
+            throw new Error(`Unable to set uniform: No uniform named ${ id } exists in the current program`);
         }
 
-        uniform.set(values);
+        uniform.set(this.gl, values);
     }
 
     render (renderable) {
