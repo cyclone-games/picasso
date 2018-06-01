@@ -1,8 +1,6 @@
 import Attribute from './Attribute';
+import Texture from './Texture';
 import Uniform from './Uniform';
-
-const attributeRegex = /attribute (.+? )?(.+?) (.+?);/;
-const uniformRegex = /uniform (.+? )?(.+?) (.+?);/;
 
 export default class Shader {
 
@@ -25,21 +23,25 @@ export default class Shader {
             throw new Error('Unable to compile shader: Please verify that your GLSL is valid');
         }
 
-        for (const attribute of this.glsl.match(new RegExp(attributeRegex, 'g'))) {
+        const attributes = this.glsl.match(new RegExp(Attribute.regex, 'g'));
+        const uniforms = this.glsl.match(new RegExp(Uniform.regex, 'g'));
+
+        if (attributes) for (const attribute of attributes) {
             const buffer = gl.createBuffer();
-            const [ , , definition, id ] = attribute.match(attributeRegex);
+            const [ , , definition, id ] = attribute.match(Attribute.regex);
             const size = Number.parseInt(definition.match(/\d+/), 10);
             const type = definition.match(/(.+?)\d+/)[ 1 ];
 
             this.attributes.push(new Attribute(buffer, gl, id, size, type));
         }
 
-        for (const uniform of this.glsl.match(new RegExp(uniformRegex, 'g'))) {
-            const [ , , definition, id ] = uniform.match(uniformRegex);
+        if (uniforms) for (const uniform of uniforms) {
+            const [ , , definition, id ] = uniform.match(Uniform.regex);
             const size = Number.parseInt(definition.match(/\d+/), 10);
+            const texture = definition.match(/sampler/) ? new Texture(this.gl, Texture.unit++) : null;
             const type = definition.match(/(.+?)\d+/)[ 1 ];
 
-            this.uniforms.push(new Uniform(gl, id, size, type));
+            this.uniforms.push(new Uniform(gl, id, size, texture, type));
         }
 
         this.compiled = shader;

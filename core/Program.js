@@ -1,31 +1,30 @@
-import Shader from './Shader';
-
 export default class Program {
 
-    constructor (gl) {
+    constructor (gl, shaders) {
         this.gl = gl;
-        this.program = gl.createProgram();
-        this.shaders = { };
+        this.program = null;
+        this.shaders = shaders;
     }
 
-    add (shader) {
-        const { attributes, compiled, uniforms } = shader.compile(this.gl);
+    compile () {
+        this.program = this.gl.createProgram();
+        this.shaders = this.shaders.map(shader => shader.compile(this.gl));
 
-        this.gl.attachShader(this.program, compiled);
-
-        for (const attribute of attributes) {
-            attribute.location = this.gl.getAttribLocation(this.program, attribute.id);
+        for (const { compiled } of this.shaders) {
+            this.gl.attachShader(this.program, compiled);
+            this.gl.linkProgram(this.program);
         }
 
-        for (const uniform of uniforms) {
-            uniform.location = this.gl.getUniformLocation(this.program, uniform.id);
+        for (const { attributes, uniforms } of this.shaders) {
+
+            for (const attribute of attributes) {
+                attribute.location = this.gl.getAttribLocation(this.program, attribute.id);
+            }
+
+            for (const uniform of uniforms) {
+                uniform.location = this.gl.getUniformLocation(this.program, uniform.id);
+            }
         }
-
-        this.shaders[ shader.type ] = shader;
-    }
-
-    link () {
-        this.gl.linkProgram(this.program);
     }
 
     use () {
@@ -34,7 +33,7 @@ export default class Program {
 
     getAttribute (id) {
 
-        for (const shader of Object.values(this.shaders)) {
+        for (const shader of this.shaders) {
 
             for (const attribute of shader.attributes) if (attribute.id === id) {
                 return attribute;
@@ -46,7 +45,7 @@ export default class Program {
 
     getUniform (id) {
 
-        for (const shader of Object.values(this.shaders)) {
+        for (const shader of this.shaders) {
 
             for (const uniform of shader.uniforms) if (uniform.id === id) {
                 return uniform;

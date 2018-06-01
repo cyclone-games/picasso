@@ -1,0 +1,29 @@
+{
+  "name": "picasso",
+  "version": "1.0.0",
+  "description": "WebGL Wrapper",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cyclone-games/picasso.git"
+  },
+  "author": "Cyclonic Games",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cyclone-games/picasso/issues"
+  },
+  "homepage": "https://github.com/cyclone-games/picasso#readme",
+  "devDependencies": {
+    "babel-core": "^6.26.3",
+    "babel-loader": "^7.1.4",
+    "babel-plugin-transform-class-properties": "^6.24.1",
+    "babel-polyfill": "^6.26.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.3"
+  }
+}

@@ -10,14 +10,11 @@ export default class Renderer {
     }
 
     initialize (id, shaders) {
-        this.programs[ id ] = new Program(this.gl);
+        this.programs[ id ] = new Program(this.gl, shaders);
 
-        for (const shader of shaders) {
-            this.programs[ id ].add(shader);
-        }
+        this.programs[ id ].compile();
 
-        this.programs[ id ].link();
-        this.programs[ id ].use();
+        this.useProgram(id);
     }
 
     useProgram (id) {
@@ -26,11 +23,6 @@ export default class Renderer {
     }
 
     setAttribute (id, values) {
-
-        if (!this.using) {
-            throw new Error('Unable to set attribute: No program is currently being used');
-        }
-
         const attribute = this.programs[ this.using ].getAttribute(id);
 
         if (!attribute) {
@@ -41,11 +33,6 @@ export default class Renderer {
     }
 
     setUniform (id, values) {
-
-        if (!this.using) {
-            throw new Error('Unable to set uniform: No program is currently being used');
-        }
-
         const uniform = this.programs[ this.using ].getUniform(id);
 
         if (!uniform) {

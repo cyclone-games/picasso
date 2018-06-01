@@ -1,5 +1,7 @@
 export default class Attribute {
 
+    static regex = /attribute (.+? )?(.+?) (.+?);/;
+
     constructor (buffer, gl, id, size, type) {
         this.buffer = buffer;
         this.gl = gl;
@@ -15,7 +17,18 @@ export default class Attribute {
 
     set (values) {
         this.gl.bindBuffer(this.gl.ARRAY_BUFFER, this.buffer);
-        this.gl.vertexAttribPointer(this.location, this.size, this.gl.FLOAT, false, 0, 0);
-        this.gl.bufferData(this.gl.ARRAY_BUFFER, new Float32Array(values), this.gl.STATIC_DRAW);
+        this.gl.vertexAttribPointer(
+            this.location,
+            this.size,
+            this.gl.FLOAT,
+            false,
+            0,
+            0
+        );
+        this.gl.bufferData(
+            this.gl.ARRAY_BUFFER,
+            new Float32Array(values),
+            this.gl.STATIC_DRAW
+        );
     }
 }
