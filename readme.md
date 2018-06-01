@@ -17,9 +17,9 @@ npm install cyclone-games/picasso --save # requires git to be installed
 ### `// EXAMPLE`
 
 ```javascript
-import { WebGL, Shader } from 'picasso';
+import { Renderer, Shader } from 'picasso';
 
-const renderer = new WebGL(canvas);
+const renderer = new Renderer(canvas);
 
 const fragmentShader = new Shader('fragment', `
      precision mediump float;
