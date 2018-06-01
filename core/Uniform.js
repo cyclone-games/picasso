@@ -2,8 +2,7 @@ export default class Uniform {
 
     static regex = /uniform (.+? )?(.+?) (.+?);/;
 
-    constructor (gl, id, size, texture, type) {
-        this.gl = gl;
+    constructor (id, size, texture, type) {
         this.id = id;
         this.location = null;
         this.size = size;
@@ -11,20 +10,20 @@ export default class Uniform {
         this.type = type;
     }
 
-    set (values) {
+    set (gl, values) {
 
         if (this.type === 'mat') {
-            this.gl[ `uniformMatrix${ this.size }fv` ](this.location, false, values);
+            gl[ `uniformMatrix${ this.size }fv` ](this.location, false, values);
         }
         else if (this.type === 'sampler') {
-            this.texture.set(values);
-            this.gl.uniform1i(this.location, this.texture.unit);
+            this.texture.set(gl, values);
+            gl.uniform1i(this.location, this.texture.unit);
         }
         else {
             const type = (this.type.match(/(.)vec/) || [ , 'f' ])[ 1 ];
             const flag = type === 'u' ? 'ui' : type;
 
-            this.gl[ `uniform${ this.size }${ flag }` ](this.location, ...values);
+            gl[ `uniform${ this.size }${ flag }` ](this.location, ...values);
         }
     }
 }
