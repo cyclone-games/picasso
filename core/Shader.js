@@ -38,7 +38,7 @@ export default class Shader {
         if (uniforms) for (const uniform of uniforms) {
             const [ , , definition, id ] = uniform.match(Uniform.regex);
             const size = Number.parseInt(definition.match(/\d+/), 10);
-            const texture = definition.match(/sampler/) ? new Texture(gl, Texture.unit++) : null;
+            const texture = definition.match(/sampler/) ? new Texture(Texture.unit++) : null;
             const type = definition.match(/(.+?)\d+/)[ 1 ];
 
             this.uniforms.push(new Uniform(id, size, texture, type));
