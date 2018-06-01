@@ -19,8 +19,10 @@ npm install cyclone-games/picasso --save # requires git to be installed
 ```javascript
 import { Renderer, Shader } from 'picasso';
 
+// Instantiate a Renderer -- this is our main interface into WebGL
 const renderer = new Renderer(canvas);
 
+// Create a fragment shader
 const fragmentShader = new Shader('fragment', `
      precision mediump float;
      
@@ -32,6 +34,7 @@ const fragmentShader = new Shader('fragment', `
      }
 `);
 
+// Create a vertex shader
 const vertexShader = new Shader('vertex', `
      attribute vec2 a_position;
      attribute vec2 a_textureCoords;
@@ -52,7 +55,9 @@ const vertexShader = new Shader('vertex', `
      }
 `);
 
+// Initialize the pair of shaders as our "default" program
 renderer.initialize('default', [ fragmentShader, vertexShader ]);
 
+// Render an object to WebGL
 renderer.render(/* TODO */);
 ```
