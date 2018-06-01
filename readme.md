@@ -55,8 +55,14 @@ const vertexShader = new Shader('vertex', `
      }
 `);
 
-// Initialize the pair of shaders as our "default" program
+// Initialize the pair of shaders as our "default" program (the name can be anything)
 renderer.initialize('default', [ fragmentShader, vertexShader ]);
+
+// Assign values to an attribute -- specifically, setting position to x 32, y 32
+renderer.setAttribute('a_position', [ 32, 32 ]);
+
+// Assign values to a uniform -- specifically, setting the resolution
+renderer.setUniform('u_resolution', [ canvas.width, canvas.height ]); 
 
 // Render an object to WebGL
 renderer.render(/* TODO */);
