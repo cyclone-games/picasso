@@ -38,8 +38,9 @@ const vertex = new Shader('vertex', `
         vec2 one = a_Position / u_Resolution;
         vec2 two = one * 2.0;
         vec2 clip = two - 1.0;
+        vec2 flip = vec2(1.0, -1.0);
 
-        gl_Position = vec4(clip * vec2(1.0, -1.0), 0.0, 1.0);
+        gl_Position = vec4(clip * flip, 0.0, 1.0);
     }
 `);
 
