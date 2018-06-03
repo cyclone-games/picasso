@@ -1,5 +1,5 @@
 import Renderer from './core/Renderer';
-import Shader from './core/shader';
+import Shader from './core/Shader';
 
 export {
     Renderer,
