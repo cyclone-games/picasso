@@ -1,6 +1,5 @@
 export default class Uniform {
 
-    static prefix = 'u_';
     static regex = /uniform (.+? )?(.+?) (.+?);/;
 
     constructor (id, size, texture, type) {

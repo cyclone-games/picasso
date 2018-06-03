@@ -13,11 +13,18 @@ export default class Renderer {
         this.programs[ id ] = new Program(shaders);
         this.programs[ id ].compile(this.context);
         this.useProgram(id);
+        this.refresh();
     }
 
     useProgram (id) {
         this.programs[ id ].use(this.context);
         this.using = id;
+    }
+
+    refresh () {
+        this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
+        this.context.clearColor(0, 0, 0, 1);
+        this.context.clear(this.context.COLOR_BUFFER_BIT);
     }
 
     setAttribute (id, values) {
@@ -40,7 +47,7 @@ export default class Renderer {
         uniform.set(this.context, values);
     }
 
-    render (renderable) {
-
+    draw (count, primitive = 'triangles') {
+        this.context.drawArrays(this.context[ primitive.toUpperCase() ], 0, count);
     }
 }

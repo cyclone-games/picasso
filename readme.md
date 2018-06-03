@@ -17,53 +17,46 @@ npm install cyclone-games/picasso --save # requires git to be installed
 ### `// EXAMPLE`
 
 ```javascript
-import { Renderer, Shader } from 'picasso';
+import { Renderer, Shader } from '..';
 
-// Instantiate a Renderer -- this is our main interface into WebGL
+const fragment = new Shader('fragment', `
+    precision mediump float;
+
+    out vec4 v_Color;
+
+    void main () {
+        v_Color = vec4(1.0, 0.0, 0.5, 1.0);
+    }
+`);
+
+const vertex = new Shader('vertex', `
+    in vec2 a_Position;
+
+    uniform vec2 u_Resolution;
+
+    void main () {
+        vec2 one = a_Position / u_Resolution;
+        vec2 two = one * 2.0;
+        vec2 clip = two - 1.0;
+
+        gl_Position = vec4(clip * vec2(1.0, -1.0), 0.0, 1.0);
+    }
+`);
+
 const renderer = new Renderer(canvas);
 
-// Create a fragment shader
-const fragmentShader = new Shader('fragment', `
-     precision mediump float;
+renderer.initialize('default', [ fragment, vertex ]);
 
-     uniform sampler2D u_image;
-     varying vec2 v_textureCoords;
+renderer.setUniform('u_Resolution', [ canvas.width, canvas.height ]);
 
-     void main() {
-          gl_FragColor = texture2D(u_image, v_textureCoords);
-     }
-`);
+renderer.setAttribute('a_Position', [
+    32, 32,
+    64, 32,
+    32, 64,
+    32, 64,
+    64, 32,
+    64, 64,
+]);
 
-// Create a vertex shader
-const vertexShader = new Shader('vertex', `
-     attribute vec2 a_position;
-     attribute vec2 a_textureCoords;
-
-     uniform mat3 u_matrix;
-     uniform vec2 u_resolution;
-
-     varying vec2 v_textureCoords;
-
-     void main() {
-          vec2 projected = (u_matrix * vec3(a_position, 1.0)).xy;
-          vec2 normal = projected / u_resolution;
-          vec2 clipspace = (normal * 2.0) - 1.0;
-
-          gl_Position = vec4(clipspace * vec2(1.0, -1.0), 0.0, 1.0);
-
-          v_textureCoords = a_textureCoords;
-     }
-`);
-
-// Initialize the pair of shaders as our "default" program (the name can be anything)
-renderer.initialize('default', [ fragmentShader, vertexShader ]);
-
-// Assign values to an attribute -- specifically, setting position to x 32, y 32
-renderer.setAttribute('a_position', [ 32, 32 ]);
-
-// Assign values to a uniform -- specifically, setting the resolution
-renderer.setUniform('u_resolution', [ canvas.width, canvas.height ]);
-
-// Render an object to WebGL
-renderer.render(/* TODO */);
+renderer.draw(6);
 ```

@@ -1,6 +1,5 @@
 export default class Attribute {
 
-    static prefix = 'a_';
     static regex = /attribute (.+? )?(.+?) (.+?);/;
 
     constructor (buffer, id, size, type) {
@@ -16,20 +15,19 @@ export default class Attribute {
     }
 
     set (gl, values) {
-        gl.enableVertexAttribArray(this.location);
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
-        gl.vertexAttribPointer(
-            this.location,
-            this.size,
-            this.gl.FLOAT,
-            false,
-            0,
-            0
-        );
         gl.bufferData(
             gl.ARRAY_BUFFER,
             new Float32Array(values),
             gl.STATIC_DRAW
+        );
+        gl.vertexAttribPointer(
+            this.location,
+            this.size,
+            gl.FLOAT,
+            false,
+            0,
+            0
         );
     }
 }
