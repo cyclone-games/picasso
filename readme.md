@@ -25,10 +25,10 @@ const renderer = new Renderer(canvas);
 // Create a fragment shader
 const fragmentShader = new Shader('fragment', `
      precision mediump float;
-     
+
      uniform sampler2D u_image;
      varying vec2 v_textureCoords;
-     
+
      void main() {
           gl_FragColor = texture2D(u_image, v_textureCoords);
      }
@@ -38,19 +38,19 @@ const fragmentShader = new Shader('fragment', `
 const vertexShader = new Shader('vertex', `
      attribute vec2 a_position;
      attribute vec2 a_textureCoords;
-     
+
      uniform mat3 u_matrix;
      uniform vec2 u_resolution;
-     
+
      varying vec2 v_textureCoords;
-     
+
      void main() {
           vec2 projected = (u_matrix * vec3(a_position, 1.0)).xy;
           vec2 normal = projected / u_resolution;
           vec2 clipspace = (normal * 2.0) - 1.0;
-          
+
           gl_Position = vec4(clipspace * vec2(1.0, -1.0), 0.0, 1.0);
-          
+
           v_textureCoords = a_textureCoords;
      }
 `);
@@ -62,7 +62,7 @@ renderer.initialize('default', [ fragmentShader, vertexShader ]);
 renderer.setAttribute('a_position', [ 32, 32 ]);
 
 // Assign values to a uniform -- specifically, setting the resolution
-renderer.setUniform('u_resolution', [ canvas.width, canvas.height ]); 
+renderer.setUniform('u_resolution', [ canvas.width, canvas.height ]);
 
 // Render an object to WebGL
 renderer.render(/* TODO */);

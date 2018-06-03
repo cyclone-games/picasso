@@ -20,6 +20,5 @@ export default class Texture {
         //     this.gl.UNSIGNED_BYTE,
         //     values
         // );
-        // this.gl.uniform1i(this.location, this.texture.unit);
     }
 }
