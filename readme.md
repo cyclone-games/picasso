@@ -15,6 +15,15 @@ npm install cyclone-games/picasso --save # requires git to be installed
 ```
 
 ### `// EXAMPLE`
+The following code does the following things, in order:
+
+1. Imports necessary classes from picasso
+2. Creates a fragment `Shader`
+3. Creates a vertex `Shader`
+4. Instantiates a `Renderer`
+5. Initializes a new program, named "default" with the two shaders mentioned above
+6. Assigns data to the required attributes & uniforms
+7. Creates an image (for the texture), and onload executes the draw
 
 ```javascript
 import { Renderer, Shader } from 'picasso';
@@ -50,8 +59,6 @@ const vertex = new Shader('vertex', `
     }
 `);
 
-const image = new Image();
-
 const renderer = new Renderer(canvas);
 
 renderer.initialize('default', [ fragment, vertex ]);
@@ -75,6 +82,8 @@ renderer.setAttribute('a_Sample', new Float32Array([
     1, 0,
     1, 1
 ]));
+
+const image = new Image();
 
 image.onload = () => {
     renderer.setUniform('u_Texture', image);
