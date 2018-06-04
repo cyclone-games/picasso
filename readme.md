@@ -61,9 +61,12 @@ const vertex = new Shader('vertex', `
 
 const renderer = new Renderer(canvas);
 
-renderer.initialize('default', [ fragment, vertex ]);
+renderer.initialize('default', fragment, vertex);
 
-renderer.setUniform('u_Resolution', new Float32Array([ canvas.width, canvas.height ]));
+renderer.setUniform('u_Resolution', new Float32Array([ 
+     canvas.width, 
+     canvas.height 
+]));
 
 renderer.setAttribute('a_Position', new Float32Array([
     32, 32,
