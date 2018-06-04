@@ -4,7 +4,7 @@
   "description": "WebGL Wrapper",
   "main": "index.js",
   "scripts": {
-    "dev": "webpack"
+    "dev": "webpack && http-server ./dev"
   },
   "repository": {
     "type": "git",

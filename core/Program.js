@@ -12,14 +12,17 @@ export default class Program {
         for (const { compiled } of this.shaders) {
             gl.attachShader(this.program, compiled);
         }
-        
+
         gl.linkProgram(this.program);
 
         for (const { attributes, uniforms } of this.shaders) {
 
             for (const attribute of attributes) {
                 attribute.location = gl.getAttribLocation(this.program, attribute.id);
-                attribute.enable(gl);
+
+                if (attribute.location > -1) {
+                    attribute.enable(gl);
+                }
             }
 
             for (const uniform of uniforms) {

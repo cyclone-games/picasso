@@ -22,17 +22,22 @@ import { Renderer, Shader } from '..';
 const fragment = new Shader('fragment', `
     precision mediump float;
 
+    in vec2 v_Sample;
+    uniform sampler2D u_Texture;
+
     out vec4 v_Color;
 
     void main () {
-        v_Color = vec4(1.0, 0.0, 0.5, 1.0);
+        v_Color = texture(u_Texture, v_Sample);
     }
 `);
 
 const vertex = new Shader('vertex', `
     in vec2 a_Position;
-
+    in vec2 a_Sample;
     uniform vec2 u_Resolution;
+
+    out vec2 v_Sample;
 
     void main () {
         vec2 one = a_Position / u_Resolution;
@@ -41,23 +46,37 @@ const vertex = new Shader('vertex', `
         vec2 flip = vec2(1.0, -1.0);
 
         gl_Position = vec4(clip * flip, 0.0, 1.0);
+        v_Sample = a_Sample;
     }
 `);
+
+const image = new Image();
 
 const renderer = new Renderer(canvas);
 
 renderer.initialize('default', [ fragment, vertex ]);
 
-renderer.setUniform('u_Resolution', [ canvas.width, canvas.height ]);
+image.onload = () => {
+    renderer.setUniform('u_Resolution', [ canvas.width, canvas.height ]);
+    renderer.setUniform('u_Texture', [ image, 32, 32 ]);
+    renderer.setAttribute('a_Position', [
+        32, 32,
+        64, 32,
+        32, 64,
+        32, 64,
+        64, 32,
+        64, 64,
+    ]);
+    renderer.setAttribute('a_Sample', [
+        0, 0,
+        1, 0,
+        0, 1,
+        0, 1,
+        1, 0,
+        1, 1
+    ]);
+    renderer.draw(6)
+};
 
-renderer.setAttribute('a_Position', [
-    32, 32,
-    64, 32,
-    32, 64,
-    32, 64,
-    64, 32,
-    64, 64,
-]);
-
-renderer.draw(6);
+image.src = './kazoo.jpeg';
 ```

@@ -5,7 +5,7 @@ import Uniform from './Uniform';
 export default class Shader {
 
     static regex = /in (.+? )?(.+?) (.+?);/;
-    static upgrade = '#version 300 es\n';
+    static upgrade = '    #version 300 es\n';
 
     attributes = [ ];
     uniforms = [ ];
@@ -40,13 +40,15 @@ export default class Shader {
             const size = Number.parseInt(definition.match(/\d+/), 10);
             const type = definition.match(/(.+?)\d+/)[ 1 ];
 
-            this.attributes.push(new Attribute(buffer, id, size, type));
+            if (!this.glsl.match(new RegExp(`out (.+? )?${ definition } ${ id };`))) {
+                this.attributes.push(new Attribute(buffer, id, size, type));
+            }
         }
 
         if (uniforms) for (const uniform of uniforms) {
             const [ , , definition, id ] = uniform.match(Uniform.regex);
             const size = Number.parseInt(definition.match(/\d+/)[ 0 ], 10);
-            const texture = definition.match(/sampler/) ? new Texture(Texture.unit++) : null;
+            const texture = definition.match(/sampler/) ? new Texture(size, gl.createTexture(), Texture.unit++) : null;
             const type = definition.match(/(.+?)\d+/)[ 1 ];
 
             this.uniforms.push(new Uniform(id, size, texture, type));

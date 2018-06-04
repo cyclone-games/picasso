@@ -2,23 +2,30 @@ export default class Texture {
 
     static unit = 0;
 
-    constructor (unit) {
+    constructor (size, texture, unit) {
+        this.size = size;
+        this.texture = texture;
         this.unit = unit;
     }
 
-    set (gl, values) {
-        // this.gl.activeTexture(this.gl[ `TEXTURE${ this.texture.unit }` ]);
-        // this.gl.bindTexture(this.gl[ `TEXTURE_${ this.size }D` ], this.texture.registered);
-        // this.gl[ `texImage${ this.size }D` ](
-        //     this.gl[ `TEXTURE_${ this.size }D` ],
-        //     0,
-        //     this.gl.RGBA,
-        //     configuration.width,
-        //     configuration.height,
-        //     0,
-        //     this.gl.RGBA,
-        //     this.gl.UNSIGNED_BYTE,
-        //     values
-        // );
+    set (gl, data) {
+        gl.activeTexture(gl[ `TEXTURE${ this.unit }` ]);
+        gl.bindTexture(gl[ `TEXTURE_${ this.size }D` ], this.texture);
+        gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+        gl[ `texImage${ this.size }D` ](
+            gl[ `TEXTURE_${ this.size }D` ],
+            0,
+            gl.RGB,
+            data[ 1 ],
+            data[ 2 ],
+            0,
+            gl.RGB,
+            gl.UNSIGNED_BYTE,
+            data[ 0 ]
+        );
+        gl.texParameteri(gl[ `TEXTURE_${ this.size }D` ], gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+        gl.texParameteri(gl[ `TEXTURE_${ this.size }D` ], gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+        gl.texParameteri(gl[ `TEXTURE_${ this.size }D` ], gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl[ `TEXTURE_${ this.size }D` ], gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     }
 }
