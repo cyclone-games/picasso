@@ -1,3 +1,23 @@
+function identify (values) {
+    switch (true) {
+        case values instanceof Int8Array: {
+            return 'BYTE';
+        }
+        case values instanceof Int16Array: {
+            return 'SHORT';
+        }
+        case values instanceof Uint8Array: {
+            return 'UNSIGNED_BYTE';
+        }
+        case values instanceof Uint16Array: {
+            return 'UNSIGNED_SHORT';
+        }
+        case values instanceof Float32Array: {
+            return 'FLOAT';
+        }
+    }
+}
+
 export default class Attribute {
 
     static regex = /attribute (.+? )?(.+?) (.+?);/;
@@ -18,13 +38,13 @@ export default class Attribute {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.buffer);
         gl.bufferData(
             gl.ARRAY_BUFFER,
-            new Float32Array(values),
+            values,
             gl.STATIC_DRAW
         );
         gl.vertexAttribPointer(
             this.location,
             this.size,
-            gl.FLOAT,
+            gl[ identify(values) ],
             false,
             0,
             0

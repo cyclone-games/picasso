@@ -55,28 +55,28 @@ const image = new Image();
 const renderer = new Renderer(canvas);
 
 renderer.initialize('default', [ fragment, vertex ]);
+renderer.setUniform('u_Resolution', new Float32Array([ canvas.width, canvas.height ]));
+renderer.setAttribute('a_Position', new Float32Array([
+    32, 32,
+    64, 32,
+    32, 64,
+    32, 64,
+    64, 32,
+    64, 64,
+]));
+renderer.setAttribute('a_Sample', new Float32Array([
+    0, 0,
+    1, 0,
+    0, 1,
+    0, 1,
+    1, 0,
+    1, 1
+]));
 
 image.onload = () => {
-    renderer.setUniform('u_Resolution', [ canvas.width, canvas.height ]);
-    renderer.setUniform('u_Texture', [ image, 32, 32 ]);
-    renderer.setAttribute('a_Position', [
-        32, 32,
-        64, 32,
-        32, 64,
-        32, 64,
-        64, 32,
-        64, 64,
-    ]);
-    renderer.setAttribute('a_Sample', [
-        0, 0,
-        1, 0,
-        0, 1,
-        0, 1,
-        1, 0,
-        1, 1
-    ]);
-    renderer.draw(6)
+    renderer.setUniform('u_Texture', image);
+    renderer.draw(6);
 };
 
-image.src = './kazoo.jpeg';
+image.src = './teacup.png';
 ```

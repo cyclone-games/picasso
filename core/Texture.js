@@ -8,20 +8,20 @@ export default class Texture {
         this.unit = unit;
     }
 
-    set (gl, data) {
+    set (gl, image) {
         gl.activeTexture(gl[ `TEXTURE${ this.unit }` ]);
         gl.bindTexture(gl[ `TEXTURE_${ this.size }D` ], this.texture);
         gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
         gl[ `texImage${ this.size }D` ](
             gl[ `TEXTURE_${ this.size }D` ],
             0,
-            gl.RGB,
-            data[ 1 ],
-            data[ 2 ],
+            gl.RGBA,
+            image.width,
+            image.height,
             0,
-            gl.RGB,
+            gl.RGBA,
             gl.UNSIGNED_BYTE,
-            data[ 0 ]
+            image
         );
         gl.texParameteri(gl[ `TEXTURE_${ this.size }D` ], gl.TEXTURE_MIN_FILTER, gl.NEAREST);
         gl.texParameteri(gl[ `TEXTURE_${ this.size }D` ], gl.TEXTURE_MAG_FILTER, gl.NEAREST);

@@ -12,8 +12,10 @@ export default class Renderer {
     initialize (id, shaders) {
         this.programs[ id ] = new Program(shaders);
         this.programs[ id ].compile(this.context);
+        this.context.blendFunc(this.context.SRC_ALPHA, this.context.ONE);
+        this.context.enable(this.context.BLEND);
         this.useProgram(id);
-        this.refresh();
+        this.clear(0, 0, 0, 1);
     }
 
     useProgram (id) {
@@ -21,9 +23,8 @@ export default class Renderer {
         this.using = id;
     }
 
-    refresh () {
-        this.context.viewport(0, 0, this.canvas.width, this.canvas.height);
-        this.context.clearColor(0, 0, 0, 1);
+    clear (r = 0, g = 0, b = 0, a = 1) {
+        this.context.clearColor(r, g, b, a);
         this.context.clear(this.context.COLOR_BUFFER_BIT);
     }
 
