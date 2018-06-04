@@ -17,7 +17,7 @@ npm install cyclone-games/picasso --save # requires git to be installed
 ### `// EXAMPLE`
 
 ```javascript
-import { Renderer, Shader } from '..';
+import { Renderer, Shader } from 'picasso';
 
 const fragment = new Shader('fragment', `
     precision mediump float;
@@ -55,7 +55,9 @@ const image = new Image();
 const renderer = new Renderer(canvas);
 
 renderer.initialize('default', [ fragment, vertex ]);
+
 renderer.setUniform('u_Resolution', new Float32Array([ canvas.width, canvas.height ]));
+
 renderer.setAttribute('a_Position', new Float32Array([
     32, 32,
     64, 32,
@@ -64,6 +66,7 @@ renderer.setAttribute('a_Position', new Float32Array([
     64, 32,
     64, 64,
 ]));
+
 renderer.setAttribute('a_Sample', new Float32Array([
     0, 0,
     1, 0,
