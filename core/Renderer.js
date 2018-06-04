@@ -9,7 +9,7 @@ export default class Renderer {
         this.using = null;
     }
 
-    initialize (id, shaders) {
+    initialize (id, ...shaders) {
         this.programs[ id ] = new Program(shaders);
         this.programs[ id ].compile(this.context);
         this.context.blendFunc(this.context.SRC_ALPHA, this.context.ONE);
