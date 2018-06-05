@@ -15,7 +15,7 @@ export default class Renderer {
         this.context.blendFunc(this.context.SRC_ALPHA, this.context.ONE);
         this.context.enable(this.context.BLEND);
         this.program(id);
-        this.resize(this.canvas.width, this.canvas.height);
+        this.viewport(0, 0, this.canvas.width, this.canvas.height);
         this.clear(0, 0, 0, 1);
     }
 
@@ -24,8 +24,8 @@ export default class Renderer {
         this.using = id;
     }
 
-    resize (width, height) {
-        this.context.viewport(0, 0, width, height);
+    viewport (x, y, width, height) {
+        this.context.viewport(x, y, width, height);
     }
 
     clear (r = 0, g = 0, b = 0, a = 1) {
