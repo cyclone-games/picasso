@@ -1,4 +1,4 @@
-import Attribute from './Attribute';
+import Input from './Input';
 import Texture from './Texture';
 import Uniform from './Uniform';
 
@@ -7,7 +7,7 @@ export default class Shader {
     static regex = /in (.+? )?(.+?) (.+?);/;
     static upgrade = '    #version 300 es\n';
 
-    attributes = [ ];
+    inputs = [ ];
     uniforms = [ ];
 
     constructor (type, glsl, upgrade = true) {
@@ -19,8 +19,7 @@ export default class Shader {
 
     compile (gl) {
         const shader = gl.createShader(gl[ `${ this.type.toUpperCase() }_SHADER` ]);
-        const attributes = this.glsl.match(new RegExp(Attribute.regex, 'g'));
-        const inputs = this.glsl.match(new RegExp(Shader.regex, 'g'));
+        const inputs = this.glsl.match(new RegExp(Input.regex, 'g'));
         const uniforms = this.glsl.match(new RegExp(Uniform.regex, 'g'));
 
         if (this.upgrade) {
@@ -34,15 +33,13 @@ export default class Shader {
             throw new Error('Unable to compile shader: Please verify that your GLSL is valid');
         }
 
-        if (attributes || inputs) for (const attribute of (attributes || inputs)) {
+        if (inputs) for (const input of inputs) {
             const buffer = gl.createBuffer();
-            const [ , , definition, id ] = (attribute.match(Attribute.regex) || attribute.match(Shader.regex));
+            const [ , , definition, id ] = input.match(Input.regex);
             const size = Number.parseInt(definition.match(/\d+/), 10);
             const type = definition.match(/(.+?)\d+/)[ 1 ];
 
-            if (!this.glsl.match(new RegExp(`out (.+? )?${ definition } ${ id };`))) {
-                this.attributes.push(new Attribute(buffer, id, size, type));
-            }
+            this.inputs.push(new Input(buffer, id, size, type));
         }
 
         if (uniforms) for (const uniform of uniforms) {

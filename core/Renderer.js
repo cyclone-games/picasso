@@ -14,11 +14,11 @@ export default class Renderer {
         this.programs[ id ].compile(this.context);
         this.context.blendFunc(this.context.SRC_ALPHA, this.context.ONE);
         this.context.enable(this.context.BLEND);
-        this.useProgram(id);
+        this.program(id);
         this.clear(0, 0, 0, 1);
     }
 
-    useProgram (id) {
+    program (id) {
         this.programs[ id ].use(this.context);
         this.using = id;
     }
@@ -28,18 +28,18 @@ export default class Renderer {
         this.context.clear(this.context.COLOR_BUFFER_BIT);
     }
 
-    setAttribute (id, values) {
-        const attribute = this.programs[ this.using ].getAttribute(id);
+    input (id, values) {
+        const input = this.programs[ this.using ].input(id);
 
-        if (!attribute) {
-            throw new Error(`Unable to set attribute: No attribute named "${ id }" exists in the current program`);
+        if (!input) {
+            throw new Error(`Unable to set input: No input named "${ id }" exists in the current program`);
         }
 
-        attribute.set(this.context, values);
+        input.set(this.context, values);
     }
 
-    setUniform (id, values) {
-        const uniform = this.programs[ this.using ].getUniform(id);
+    uniform (id, values) {
+        const uniform = this.programs[ this.using ].uniform(id);
 
         if (!uniform) {
             throw new Error(`Unable to set uniform: No uniform named "${ id }" exists in the current program`);

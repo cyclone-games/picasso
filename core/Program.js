@@ -15,13 +15,16 @@ export default class Program {
 
         gl.linkProgram(this.program);
 
-        for (const { attributes, uniforms } of this.shaders) {
+        for (const { inputs, uniforms } of this.shaders) {
 
-            for (const attribute of attributes) {
-                attribute.location = gl.getAttribLocation(this.program, attribute.id);
+            for (const input of inputs) {
+                input.location = gl.getAttribLocation(this.program, input.id);
 
-                if (attribute.location > -1) {
-                    attribute.enable(gl);
+                if (input.location > -1) {
+                    input.enable(gl);
+                }
+                else {
+                    inputs.splice(inputs.indexOf(input), 1);
                 }
             }
 
@@ -35,19 +38,19 @@ export default class Program {
         gl.useProgram(this.program);
     }
 
-    getAttribute (id) {
+    input (id) {
 
         for (const shader of this.shaders) {
 
-            for (const attribute of shader.attributes) if (attribute.id === id) {
-                return attribute;
+            for (const input of shader.inputs) if (input.id === id) {
+                return input;
             }
         }
 
         return null;
     }
 
-    getUniform (id) {
+    uniform (id) {
 
         for (const shader of this.shaders) {
 
