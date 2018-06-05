@@ -15,12 +15,17 @@ export default class Renderer {
         this.context.blendFunc(this.context.SRC_ALPHA, this.context.ONE);
         this.context.enable(this.context.BLEND);
         this.program(id);
+        this.resize(this.canvas.width, this.canvas.height);
         this.clear(0, 0, 0, 1);
     }
 
     program (id) {
         this.programs[ id ].use(this.context);
         this.using = id;
+    }
+
+    resize (width, height) {
+        this.context.viewport(0, 0, width, height);
     }
 
     clear (r = 0, g = 0, b = 0, a = 1) {
