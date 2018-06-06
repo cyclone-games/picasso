@@ -2,9 +2,9 @@ import Program from './Program';
 
 export default class Renderer {
 
-    constructor (canvas, v = 2) {
+    constructor (canvas, v = 2, options = { }) {
         this.canvas = canvas;
-        this.context = canvas.getContext(`webgl${ v > 1 ? v : '' }`);
+        this.context = canvas.getContext(`webgl${ v > 1 ? v : '' }`, options);
         this.programs = { };
         this.using = null;
     }
