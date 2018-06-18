@@ -1,6 +1,6 @@
-import Program from './Program';
+const Program = require('./Program');
 
-export default class Renderer {
+exports = class Renderer {
 
     constructor (canvas, v = 2, options = { }) {
         this.canvas = canvas;
@@ -56,4 +56,4 @@ export default class Renderer {
     draw (count, primitive = 'triangles') {
         this.context.drawArrays(this.context[ primitive.toUpperCase() ], 0, count);
     }
-}
+};

@@ -1,6 +1,4 @@
-export default class Uniform {
-
-    static regex = /uniform (.+? )?(.+?) (.+?);/;
+exports = class Uniform {
 
     constructor (id, size, texture, type) {
         this.id = id;
@@ -26,4 +24,6 @@ export default class Uniform {
             gl[ `uniform${ this.size }${ flag }` ](this.location, ...values);
         }
     }
-}
+};
+
+Uniform.regex = /uniform (.+? )?(.+?) (.+?);/;

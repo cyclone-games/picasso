@@ -1,7 +1,2 @@
-import Renderer from './core/Renderer';
-import Shader from './core/Shader';
-
-export {
-    Renderer,
-    Shader
-}
+exports.Renderer = require('./core/Renderer');
+exports.Shader = require('./core/Shader');

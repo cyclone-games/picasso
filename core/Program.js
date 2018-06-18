@@ -1,4 +1,4 @@
-export default class Program {
+exports = class Program {
 
     constructor (shaders) {
         this.program = null;
@@ -61,4 +61,4 @@ export default class Program {
 
         return null;
     }
-}
+};

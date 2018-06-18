@@ -1,6 +1,4 @@
-export default class Texture {
-
-    static unit = 0;
+exports = class Texture {
 
     constructor (size, texture, unit) {
         this.size = size;
@@ -28,4 +26,6 @@ export default class Texture {
         gl.texParameteri(gl[ `TEXTURE_${ this.size }D` ], gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
         gl.texParameteri(gl[ `TEXTURE_${ this.size }D` ], gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
     }
-}
+};
+
+Texture.unit = 0;

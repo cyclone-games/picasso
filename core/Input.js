@@ -1,26 +1,4 @@
-export default class Input {
-
-    static regex = /in (.+? )?(.+?) (.+?);/;
-
-    static identify (values) {
-        switch (true) {
-            case values instanceof Int8Array: {
-                return 'BYTE';
-            }
-            case values instanceof Int16Array: {
-                return 'SHORT';
-            }
-            case values instanceof Uint8Array: {
-                return 'UNSIGNED_BYTE';
-            }
-            case values instanceof Uint16Array: {
-                return 'UNSIGNED_SHORT';
-            }
-            case values instanceof Float32Array: {
-                return 'FLOAT';
-            }
-        }
-    }
+exports = class Input {
 
     constructor (buffer, id, size, type) {
         this.buffer = buffer;
@@ -50,4 +28,26 @@ export default class Input {
             0
         );
     }
-}
+};
+
+Input.regex = /in (.+? )?(.+?) (.+?);/;
+
+Input.identify = function identify (values) {
+    switch (true) {
+        case values instanceof Int8Array: {
+            return 'BYTE';
+        }
+        case values instanceof Int16Array: {
+            return 'SHORT';
+        }
+        case values instanceof Uint8Array: {
+            return 'UNSIGNED_BYTE';
+        }
+        case values instanceof Uint16Array: {
+            return 'UNSIGNED_SHORT';
+        }
+        case values instanceof Float32Array: {
+            return 'FLOAT';
+        }
+    }
+};

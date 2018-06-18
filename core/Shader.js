@@ -1,20 +1,16 @@
-import Input from './Input';
-import Texture from './Texture';
-import Uniform from './Uniform';
+const Input = require('./Input');
+const Texture = require('./Texture');
+const Uniform = require('./Uniform');
 
-export default class Shader {
-
-    static regex = /in (.+? )?(.+?) (.+?);/;
-    static upgrade = '    #version 300 es\n';
-
-    inputs = [ ];
-    uniforms = [ ];
+exports = class Shader {
 
     constructor (type, glsl, upgrade = true) {
         this.compiled = null;
         this.glsl = glsl;
         this.type = type;
         this.upgrade = upgrade;
+        this.inputs = [ ];
+        this.uniforms = [ ];
     }
 
     compile (gl) {
@@ -55,4 +51,7 @@ export default class Shader {
 
         return this;
     }
-}
+};
+
+Shader.regex = /in (.+? )?(.+?) (.+?);/;
+Shader.upgrade = '    #version 300 es\n';
