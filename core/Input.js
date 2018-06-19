@@ -22,7 +22,7 @@ module.exports = class Input {
         gl.vertexAttribPointer(
             this.location,
             this.size,
-            gl[ Input.identify(values) ],
+            gl[ module.exports.identify(values) ],
             false,
             0,
             0
