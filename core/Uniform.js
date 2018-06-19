@@ -1,4 +1,4 @@
-exports = class Uniform {
+module.exports = class Uniform {
 
     constructor (id, size, texture, type) {
         this.id = id;

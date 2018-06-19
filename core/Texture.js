@@ -1,4 +1,4 @@
-exports = class Texture {
+module.exports = class Texture {
 
     constructor (size, texture, unit) {
         this.size = size;

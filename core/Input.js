@@ -1,4 +1,4 @@
-exports = class Input {
+module.exports = class Input {
 
     constructor (buffer, id, size, type) {
         this.buffer = buffer;

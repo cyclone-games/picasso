@@ -1,4 +1,4 @@
-exports = class Program {
+module.exports = class Program {
 
     constructor (shaders) {
         this.program = null;

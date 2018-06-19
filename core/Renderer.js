@@ -1,6 +1,6 @@
 const Program = require('./Program');
 
-exports = class Renderer {
+module.exports = class Renderer {
 
     constructor (canvas, v = 2, options = { }) {
         this.canvas = canvas;

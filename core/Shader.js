@@ -2,7 +2,7 @@ const Input = require('./Input');
 const Texture = require('./Texture');
 const Uniform = require('./Uniform');
 
-exports = class Shader {
+module.exports = class Shader {
 
     constructor (type, glsl, upgrade = true) {
         this.compiled = null;
