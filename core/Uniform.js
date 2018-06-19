@@ -26,4 +26,4 @@ exports = class Uniform {
     }
 };
 
-Uniform.regex = /uniform (.+? )?(.+?) (.+?);/;
+exports.regex = /uniform (.+? )?(.+?) (.+?);/;

@@ -28,4 +28,4 @@ exports = class Texture {
     }
 };
 
-Texture.unit = 0;
+exports.unit = 0;

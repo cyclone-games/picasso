@@ -53,5 +53,5 @@ exports = class Shader {
     }
 };
 
-Shader.regex = /in (.+? )?(.+?) (.+?);/;
-Shader.upgrade = '    #version 300 es\n';
+exports.regex = /in (.+? )?(.+?) (.+?);/;
+exports.upgrade = '    #version 300 es\n';
