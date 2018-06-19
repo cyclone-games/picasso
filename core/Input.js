@@ -30,9 +30,9 @@ module.exports = class Input {
     }
 };
 
-exports.regex = /in (.+? )?(.+?) (.+?);/;
+module.exports.regex = /in (.+? )?(.+?) (.+?);/;
 
-exports.identify = function identify (values) {
+module.exports.identify = function identify (values) {
     switch (true) {
         case values instanceof Int8Array: {
             return 'BYTE';

@@ -28,4 +28,4 @@ module.exports = class Texture {
     }
 };
 
-exports.unit = 0;
+module.exports.unit = 0;

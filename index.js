@@ -1,2 +1,2 @@
-exports.Renderer = require('./core/Renderer');
-exports.Shader = require('./core/Shader');
+module.exports.Renderer = require('./core/Renderer');
+module.exports.Shader = require('./core/Shader');
