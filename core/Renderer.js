@@ -12,8 +12,6 @@ module.exports = class Renderer {
     initialize (id, ...shaders) {
         this.programs[ id ] = new Program(shaders);
         this.programs[ id ].compile(this.context);
-        this.context.blendFunc(this.context.SRC_ALPHA, this.context.ONE_MINUS_SRC_ALPHA);
-        this.context.enable(this.context.BLEND);
         this.program(id);
         this.viewport(0, 0, this.canvas.width, this.canvas.height);
         this.clear();
@@ -28,7 +26,7 @@ module.exports = class Renderer {
         this.context.viewport(x, y, width, height);
     }
 
-    clear (r = 0, g = 0, b = 0, a = 1) {
+    clear (r = 0, g = 0, b = 0, a = 0) {
         this.context.clearColor(r, g, b, a);
         this.context.clear(this.context.COLOR_BUFFER_BIT);
     }
