@@ -55,6 +55,5 @@ module.exports = class Renderer {
 
     draw (count, primitive = 'triangles') {
         this.context.drawArrays(this.context[ primitive.toUpperCase() ], 0, count);
-        console.log(count, primitive);
     }
 };
