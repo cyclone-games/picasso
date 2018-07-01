@@ -12,8 +12,8 @@ module.exports = class Renderer {
     initialize (id, ...shaders) {
         this.programs[ id ] = new Program(shaders);
         this.programs[ id ].compile(this.context);
-        // this.context.blendFunc(this.context.SRC_ALPHA, this.context.ONE);
-        // this.context.enable(this.context.BLEND);
+        this.context.blendFunc(this.context.SRC_ALPHA, this.context.ONE);
+        this.context.enable(this.context.BLEND);
         this.program(id);
         this.viewport(0, 0, this.canvas.width, this.canvas.height);
         this.clear(0, 0, 0, 1);
