@@ -24,7 +24,7 @@ module.exports = class Program {
                     input.enable(gl);
                 }
                 else {
-                    inputs.splice(inputs.indexOf(input), 1);
+                    inputs.delete(input.id);
                 }
             }
 
@@ -40,11 +40,8 @@ module.exports = class Program {
 
     input (id) {
 
-        for (const shader of this.shaders) {
-
-            for (const input of shader.inputs) if (input.id === id) {
-                return input;
-            }
+        for (const shader of this.shaders) if (shader.inputs.has(id)) {
+            return shader.inputs.get(id);
         }
 
         return null;
@@ -52,11 +49,8 @@ module.exports = class Program {
 
     uniform (id) {
 
-        for (const shader of this.shaders) {
-
-            for (const uniform of shader.uniforms) if (uniform.id === id) {
-                return uniform;
-            }
+        for (const shader of this.shaders) if (shader.uniforms.has(id)) {
+            return shader.uniforms.get(id);
         }
 
         return null;

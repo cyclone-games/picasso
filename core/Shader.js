@@ -9,8 +9,9 @@ module.exports = class Shader {
         this.glsl = glsl;
         this.type = type;
         this.upgrade = upgrade;
-        this.inputs = [ ];
-        this.uniforms = [ ];
+
+        this.inputs = new Map();
+        this.uniforms = new Map();
     }
 
     compile (gl) {
@@ -35,7 +36,7 @@ module.exports = class Shader {
             const size = Number.parseInt(definition.match(/\d+/), 10);
             const type = definition.match(/(.+?)\d+/)[ 1 ];
 
-            this.inputs.push(new Input(buffer, id, size, type));
+            this.inputs.set(id, new Input(buffer, id, size, type));
         }
 
         if (uniforms) for (const uniform of uniforms) {
@@ -44,7 +45,7 @@ module.exports = class Shader {
             const texture = definition.match(/sampler/) ? new Texture(size, gl.createTexture(), Texture.unit++) : null;
             const type = definition.match(/(.+?)\d+/)[ 1 ];
 
-            this.uniforms.push(new Uniform(id, size, texture, type));
+            this.uniforms.set(id, new Uniform(id, size, texture, type));
         }
 
         this.compiled = shader;
