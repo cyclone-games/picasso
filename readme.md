@@ -19,13 +19,13 @@ The following code does the following things, in order:
 1. Imports necessary classes from picasso
 2. Creates a fragment `Shader`
 3. Creates a vertex `Shader`
-4. Instantiates a `Renderer`
+4. Instantiates a `Painter`
 5. Initializes a new program, named "default" with the two shaders mentioned above
 6. Assigns data to the required attributes & uniforms
 7. Creates an image (for the texture), and onload executes the draw
 
 ```javascript
-import { Renderer, Shader } from 'picasso';
+const { Painter, Shader } = require('picasso');
 
 const vertex = new Shader('vertex', `
     in vec2 i_Position;
@@ -58,11 +58,11 @@ const fragment = new Shader('fragment', `
     }
 `);
 
-const renderer = new Renderer(canvas);
+const painter = new Painter(canvas);
 
-renderer.initialize('p_Default', vertex, fragment);
-renderer.uniform('u_Resolution', new Float32Array([ canvas.width, canvas.height ]));
-renderer.input('i_Position', new Float32Array([
+painter.initialize('p_Default', vertex, fragment);
+painter.uniform('u_Resolution', new Float32Array([ canvas.width, canvas.height ]));
+painter.input('i_Position', new Float32Array([
     32, 32,
     64, 32,
     32, 64,
@@ -70,7 +70,7 @@ renderer.input('i_Position', new Float32Array([
     64, 32,
     64, 64,
 ]));
-renderer.input('i_Sample', new Float32Array([
+painter.input('i_Sample', new Float32Array([
     0, 0,
     1, 0,
     0, 1,
@@ -82,9 +82,9 @@ renderer.input('i_Sample', new Float32Array([
 const image = new Image();
 
 image.onload = () => {
-    renderer.uniform('u_Texture', image);
-    renderer.clear(0, 0, 0, 1);
-    renderer.draw(6);
+    painter.uniform('u_Texture', image);
+    painter.clear(0, 0, 0, 1);
+    painter.draw(6);
 };
 
 image.src = './teacup.png';
