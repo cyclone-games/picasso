@@ -1,20 +1,33 @@
 const Program = require('./Program');
 
-module.exports = class Renderer {
+class Painter {
 
-    constructor (canvas, v = 2, options = { }) {
-        this.canvas = canvas;
-        this.context = canvas.getContext(`webgl${ v > 1 ? v : '' }`, options);
+    constructor (canvas, options = { }) {
         this.programs = { };
         this.using = null;
+
+        this.attach(canvas, options);
+    }
+
+    attach (canvas, options) {
+        this.canvas = canvas;
+        this.context = canvas.getContext('webgl2', options);
+
+        if (this.using) {
+            this.initialize(this.using);
+        }
     }
 
     initialize (id, ...shaders) {
-        this.programs[ id ] = new Program(shaders);
-        this.programs[ id ].compile(this.context);
+
+        if (shaders.length > 0) {
+            this.programs[ id ] = new Program(shaders);
+            this.programs[ id ].compile(this.context);
+        }
+
         this.program(id);
         this.viewport(0, 0, this.canvas.width, this.canvas.height);
-        this.clear();
+        this.clear(0, 0, 0, 0);
     }
 
     program (id) {
@@ -26,7 +39,7 @@ module.exports = class Renderer {
         this.context.viewport(x, y, width, height);
     }
 
-    clear (r = 0, g = 0, b = 0, a = 0) {
+    clear (r, g, b, a) {
         this.context.clearColor(r, g, b, a);
         this.context.clear(this.context.COLOR_BUFFER_BIT);
     }
@@ -51,7 +64,13 @@ module.exports = class Renderer {
         uniform.set(this.context, values);
     }
 
+    texture (...args) {
+        this.context.texParameteri(...args);
+    }
+
     draw (count, primitive = 'triangles') {
         this.context.drawArrays(this.context[ primitive.toUpperCase() ], 0, count);
     }
 };
+
+module.exports = Painter;
