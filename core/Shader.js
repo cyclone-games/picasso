@@ -21,6 +21,7 @@ module.exports = class Shader {
 
         if (this.upgrade) {
             this.glsl = `${ Shader.upgrade }${ this.glsl }`;
+            this.upgrade = false;
         }
 
         gl.shaderSource(shader, this.glsl);
