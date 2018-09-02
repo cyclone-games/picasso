@@ -6,7 +6,9 @@ class Painter {
         this.programs = { };
         this.using = null;
 
-        this.attach(canvas, options);
+        if (canvas) {
+            this.attach(canvas, options);
+        }
     }
 
     attach (canvas, options) {
