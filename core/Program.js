@@ -17,7 +17,7 @@ module.exports = class Program {
 
         for (const { inputs, uniforms } of this.shaders) {
 
-            for (const input of inputs.values()) {
+            for (const input of inputs.get(this).values()) {
                 input.location = gl.getAttribLocation(this.program, input.id);
 
                 if (input.location > -1) {
@@ -28,7 +28,7 @@ module.exports = class Program {
                 }
             }
 
-            for (const uniform of uniforms.values()) {
+            for (const uniform of uniforms.get(this).values()) {
                 uniform.location = gl.getUniformLocation(this.program, uniform.id);
             }
         }
@@ -40,7 +40,7 @@ module.exports = class Program {
 
     input (id) {
 
-        for (const shader of this.shaders) if (shader.inputs.has(id)) {
+        for (const shader of this.shaders) if (shader.inputs.get(this).has(id)) {
             return shader.inputs.get(this).get(id);
         }
 
@@ -49,7 +49,7 @@ module.exports = class Program {
 
     uniform (id) {
 
-        for (const shader of this.shaders) if (shader.uniforms.has(id)) {
+        for (const shader of this.shaders) if (shader.uniforms.get(this).has(id)) {
             return shader.uniforms.get(this).get(id);
         }
 
