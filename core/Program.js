@@ -7,7 +7,7 @@ module.exports = class Program {
 
     compile (gl) {
         this.program = gl.createProgram();
-        this.shaders = this.shaders.map(shader => shader.compile(gl));
+        this.shaders = this.shaders.map(shader => shader.compile(this, gl));
 
         for (const { compiled } of this.shaders) {
             gl.attachShader(this.program, compiled);
@@ -41,7 +41,7 @@ module.exports = class Program {
     input (id) {
 
         for (const shader of this.shaders) if (shader.inputs.has(id)) {
-            return shader.inputs.get(id);
+            return shader.inputs.get(this).get(id);
         }
 
         return null;
@@ -50,7 +50,7 @@ module.exports = class Program {
     uniform (id) {
 
         for (const shader of this.shaders) if (shader.uniforms.has(id)) {
-            return shader.uniforms.get(id);
+            return shader.uniforms.get(this).get(id);
         }
 
         return null;

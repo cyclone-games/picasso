@@ -14,10 +14,13 @@ module.exports = class Shader {
         this.uniforms = new Map();
     }
 
-    compile (gl) {
+    compile (program, gl) {
         const shader = gl.createShader(gl[ `${ this.type.toUpperCase() }_SHADER` ]);
         const inputs = this.glsl.match(new RegExp(Input.regex, 'g'));
         const uniforms = this.glsl.match(new RegExp(Uniform.regex, 'g'));
+
+        this.inputs.set(program, new Map());
+        this.uniforms.set(program, new Map());
 
         if (this.upgrade) {
             this.glsl = `${ Shader.upgrade }${ this.glsl }`;
@@ -37,7 +40,7 @@ module.exports = class Shader {
             const size = Number.parseInt(definition.match(/\d+/), 10);
             const type = definition.match(/(.+?)\d+/)[ 1 ];
 
-            this.inputs.set(id, new Input(buffer, id, size, type));
+            this.inputs.get(program).set(id, new Input(buffer, id, size, type));
         }
 
         if (uniforms) for (const uniform of uniforms) {
@@ -46,7 +49,7 @@ module.exports = class Shader {
             const texture = definition.match(/sampler/) ? new Texture(size, gl.createTexture(), Texture.unit++) : null;
             const type = definition.match(/(.+?)\d+/)[ 1 ];
 
-            this.uniforms.set(id, new Uniform(id, size, texture, type));
+            this.uniforms.get(program).set(id, new Uniform(id, size, texture, type));
         }
 
         this.compiled = shader;
